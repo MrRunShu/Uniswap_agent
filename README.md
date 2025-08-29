@@ -1,122 +1,145 @@
-# Project Starter
+- # Uni Agent – ElizaOS Project
 
-This is the starter template for ElizaOS projects.
+  This repository contains an **ElizaOS agent** with an EVM (Ethereum-compatible) plugin.
+   The goal is to run an AI agent that can interact with blockchains (e.g. Base, Ethereum, Polygon) through natural language — for example, querying balances or sending testnet transactions.
 
-## Features
+  ------
 
-- Pre-configured project structure for ElizaOS development
-- Comprehensive testing setup with component and e2e tests
-- Default character configuration with plugin integration
-- Example service, action, and provider implementations
-- TypeScript configuration for optimal developer experience
-- Built-in documentation and examples
+  ## 🚀 Prerequisites
 
-## Getting Started
+  Before running the project, install the following:
 
-```bash
-# Create a new project
-elizaos create -t project my-project
-# Dependencies are automatically installed and built
+  - **Node.js** (>=18, recommended: 20 LTS) → [Download here](https://nodejs.org/en/download)
 
-# Navigate to the project directory
-cd my-project
+  - **pnpm** (package manager)
 
-# Start development immediately
-elizaos dev
-```
+    ```bash
+    corepack enable
+    corepack prepare pnpm@latest --activate
+    # Or: npm install -g pnpm
+    ```
 
-## Development
+  - **Git** (to clone the repository)
 
-```bash
-# Start development with hot-reloading (recommended)
-elizaos dev
+  👉 **Bun is NOT required**. We use Node.js + pnpm.
 
-# OR start without hot-reloading
-elizaos start
-# Note: When using 'start', you need to rebuild after changes:
-# bun run build
+  ------
 
-# Test the project
-elizaos test
-```
+  ## 📦 Installation
 
-## Testing
+  Clone the repository and install dependencies:
 
-ElizaOS employs a dual testing strategy:
+  ```bash
+  git clone <your-repo-url>
+  cd uni_agent
+  pnpm install
+  ```
 
-1. **Component Tests** (`src/__tests__/*.test.ts`)
+  ------
 
-   - Run with Bun's native test runner
-   - Fast, isolated tests using mocks
-   - Perfect for TDD and component logic
+  ## ⚙️ Configuration
 
-2. **E2E Tests** (`src/__tests__/e2e/*.e2e.ts`)
-   - Run with ElizaOS custom test runner
-   - Real runtime with actual database (PGLite)
-   - Test complete user scenarios
+  1. Create a `.env` file in the project root (copy from `.env.example` if available).
 
-### Test Structure
+  2. Add your environment variables.
+      Minimal example for **Base Sepolia testnet**:
 
-```
-src/
-  __tests__/              # All tests live inside src
-    *.test.ts            # Component tests (use Bun test runner)
-    e2e/                 # E2E tests (use ElizaOS test runner)
-      project-starter.e2e.ts  # E2E test suite
-      README.md          # E2E testing documentation
-  index.ts               # Export tests here: tests: [ProjectStarterTestSuite]
-```
+     ```env
+     # openai key
+     OPENAI_API_KEY=
+     
+     # Dtabase
+     PGLITE_DATA_DIR=.\elizabeth\uni_agent\.eliza\.elizadb
+     CHARACTERS_DIR=.\elizabeth\uni_agent\src\characters
+     
+     # Wallet
+     EVM_PRIVATE_KEY=
+     
+     # Base Mainnet
+     ETHEREUM_PROVIDER_BASE=https://mainnet.base.org
+     CHAIN_ID_BASE=8453
+     # Base
+     WETH=0x4200000000000000000000000000000000000006
+     UNIVERSAL_ROUTER=0x2626664c2603336E57B271c5C0b26F421741e481
+     NONFUNGIBLE_POSITION_MANAGER=0xFcb8Aa49bB9f4f8eBc5c7d9c0C301e9F1e0D3fA8
+     QUOTER_V2=0x6e2C79eEAd9bD0A50dbf61Ff3D60D6a656bcfC0b
+     
+     # Base Sepolia Testnet
+     ETHEREUM_PROVIDER_BASESEPOLIA=https://sepolia.base.org
+     CHAIN_ID_BASESEPOLIA=84532
+     # Base Sepolia
+     WETH_SEPOLIA=0x4200000000000000000000000000000000000006
+     ```
 
-### Running Tests
+  ⚠️ **Important:**
 
-- `elizaos test` - Run all tests (component + e2e)
-- `elizaos test component` - Run only component tests
-- `elizaos test e2e` - Run only E2E tests
+  - Do **NOT** use your mainnet private key. Create a fresh testnet wallet.
+  - Use a faucet to claim some Base Sepolia ETH for testing.
 
-### Writing Tests
+  ------
 
-Component tests use bun:test:
+  ## ▶️ Running the Agent
 
-```typescript
-// Unit test example (__tests__/config.test.ts)
-describe('Configuration', () => {
-  it('should load configuration correctly', () => {
-    expect(config.debug).toBeDefined();
-  });
-});
+  Start the agent with your character configuration:
 
-// Integration test example (__tests__/integration.test.ts)
-describe('Integration: Plugin with Character', () => {
-  it('should initialize character with plugins', async () => {
-    // Test interactions between components
-  });
-});
-```
+  ```bash
+  pnpm start --character ./src/characters/cryptohead.json
+  ```
 
-E2E tests use ElizaOS test interface:
+  If you need to build first:
 
-```typescript
-// E2E test example (e2e/project.test.ts)
-export class ProjectTestSuite implements TestSuite {
-  name = 'project_test_suite';
-  tests = [
+  ```bash
+  pnpm build
+  pnpm start --character ./src/characters/cryptohead.json
+  ```
+
+  ------
+
+  ## 💬 Example Commands
+
+  Once the agent is running, you can interact using natural language prompts such as:
+
+  - **“Check my wallet address.”**
+  - **“What is my balance?”**
+  - **“Send 0.001 ETH to 0x123... on Base Sepolia.”**
+
+  By default, the agent may ask for confirmation multiple times before executing a transaction (safety feature). This can be tuned in the character or plugin configuration.
+
+  ------
+
+  ## 🛠 Common Issues
+
+  - **`'node' is not recognized` (Windows)** → Node.js not added to PATH. Reinstall Node.js and restart terminal.
+  - **Character validation failed** → Check JSON in `cryptohead.json` (ensure `name`, `plugins`, `systemPrompt` are valid).
+  - **Insufficient funds** → Faucet required for testnet ETH.
+  - **Invalid private key** → Must start with `0x` and match your wallet address.
+
+  ------
+
+  ## 🤝 Team Workflow
+
+  - Share `.env.example` instead of real `.env` (never commit secrets).
+
+  - Each teammate uses their own wallet and RPC key.
+
+  - Scripts in `package.json` for consistency:
+
+    ```json
     {
-      name: 'project_initialization',
-      fn: async (runtime) => {
-        // Test project in a real runtime
-      },
-    },
-  ];
-}
+      "scripts": {
+        "start": "elizaos start --character ./src/characters/cryptohead.json",
+        "build": "tsc --noEmit && vite build && tsup"
+      }
+    }
+    ```
 
-export default new ProjectTestSuite();
-```
+  ------
 
-The test utilities in `__tests__/utils/` provide helper functions to simplify writing tests.
+  ## ✅ Quick Checklist
 
-## Configuration
-
-Customize your project by modifying:
-
-- `src/index.ts` - Main entry point
-- `src/character.ts` - Character definition
+  -  Node.js 18+ and pnpm installed
+  -  `.env` configured with testnet wallet + RPC
+  -  `pnpm install` runs without errors
+  -  Agent starts with `pnpm start`
+  -  Balance query works
+  -  Testnet transfer succeeds
