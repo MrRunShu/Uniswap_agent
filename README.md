@@ -19,22 +19,6 @@
     # Or: npm install -g pnpm
     ```
 
-  - **Git** (to clone the repository)
-
-  👉 **Bun is NOT required**. We use Node.js + pnpm.
-
-  ------
-
-  ## 📦 Installation
-
-  Clone the repository and install dependencies:
-
-  ```bash
-  git clone <your-repo-url>
-  cd uni_agent
-  pnpm install
-  ```
-
   ------
 
   ## ⚙️ Configuration
@@ -49,8 +33,8 @@
      OPENAI_API_KEY=
      
      # Dtabase
-     PGLITE_DATA_DIR=.\elizabeth\uni_agent\.eliza\.elizadb
-     CHARACTERS_DIR=.\elizabeth\uni_agent\src\characters
+     PGLITE_DATA_DIR=.\.eliza\.elizadb
+     CHARACTERS_DIR=.\src\characters
      
      # Wallet
      EVM_PRIVATE_KEY=
@@ -93,53 +77,4 @@
   pnpm start --character ./src/characters/cryptohead.json
   ```
 
-  ------
-
-  ## 💬 Example Commands
-
-  Once the agent is running, you can interact using natural language prompts such as:
-
-  - **“Check my wallet address.”**
-  - **“What is my balance?”**
-  - **“Send 0.001 ETH to 0x123... on Base Sepolia.”**
-
-  By default, the agent may ask for confirmation multiple times before executing a transaction (safety feature). This can be tuned in the character or plugin configuration.
-
-  ------
-
-  ## 🛠 Common Issues
-
-  - **`'node' is not recognized` (Windows)** → Node.js not added to PATH. Reinstall Node.js and restart terminal.
-  - **Character validation failed** → Check JSON in `cryptohead.json` (ensure `name`, `plugins`, `systemPrompt` are valid).
-  - **Insufficient funds** → Faucet required for testnet ETH.
-  - **Invalid private key** → Must start with `0x` and match your wallet address.
-
-  ------
-
-  ## 🤝 Team Workflow
-
-  - Share `.env.example` instead of real `.env` (never commit secrets).
-
-  - Each teammate uses their own wallet and RPC key.
-
-  - Scripts in `package.json` for consistency:
-
-    ```json
-    {
-      "scripts": {
-        "start": "elizaos start --character ./src/characters/cryptohead.json",
-        "build": "tsc --noEmit && vite build && tsup"
-      }
-    }
-    ```
-
-  ------
-
-  ## ✅ Quick Checklist
-
-  -  Node.js 18+ and pnpm installed
-  -  `.env` configured with testnet wallet + RPC
-  -  `pnpm install` runs without errors
-  -  Agent starts with `pnpm start`
-  -  Balance query works
-  -  Testnet transfer succeeds
+  
