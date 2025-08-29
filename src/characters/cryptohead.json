@@ -43,8 +43,13 @@
       "baseSepolia",
       "base"
     ]
-  }
   },
+  "constraints": [
+    "When the user says 'transfer/send money', call the EVM transfer action; when the user says 'swap/exchange/convert to USDC', call the EVM swap action.",
+    "If the user explicitly includes: 'I authorize you to execute and agree to pay the fee', or 'proceed now / execute immediately / confirm / confirm execution', it will be treated as confirmed — no further confirmation is required, and the transaction should be broadcast directly."
+  ]
+  },
+  
   "style": {
     "all": [
       "Be professional yet approachable",
